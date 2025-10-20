@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Descarga Exervis APK</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica,
+          Arial;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        background: #f6f7fb;
+        color: #222;
+      }
+      .card {
+        background: #fff;
+        padding: 24px;
+        border-radius: 10px;
+        box-shadow: 0 6px 20px rgba(40, 40, 60, 0.08);
+        max-width: 520px;
+        text-align: center;
+      }
+      a.button {
+        display: inline-block;
+        margin-top: 16px;
+        padding: 12px 18px;
+        background: #0b74de;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 8px;
+      }
+      p.small {
+        font-size: 0.9rem;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Descarga de la app Exervis</h1>
+      <p class="small">
+        Si la descarga no comienza automáticamente, pulsa el botón de abajo.
+      </p>
+
+      <!-- Enlace visible / fallback -->
+      <a
+        id="manual"
+        class="button"
+        href="https://cmedinaexervis-source.github.io/android/app-debug.apk"
+        download
+        >Descargar APK (manual)</a
+      >
+
+      <p class="small" style="margin-top: 12px">
+        Nota: si usas Android, permite "Instalar desde orígenes desconocidos"
+        para instalar.
+      </p>
+    </div>
+
+    <script>
+      (function () {
+        // Nombre del archivo APK relativo a la raíz del sitio
+        const apkPath =
+          "https://cmedinaexervis-source.github.io/android/app-debug.apk"; // <- cambia esto si tu APK está en otra carpeta
+
+        // Intento 1: redirigir a la URL (funciona en muchos navegadores)
+        function tryRedirect() {
+          // Cambiar location provoca la descarga o la apertura del fichero.
+          window.location.href = apkPath;
+        }
+
+        // Intento 2: crear un <a download> y hacer click programático (fallback)
+        function tryAnchorDownload() {
+          try {
+            const a = document.createElement("a");
+            a.href = apkPath;
+            a.setAttribute(
+              "download",
+              "https://cmedinaexervis-source.github.io/android/app-debug.apk"
+            ); // nombre sugerido
+            // algunos navegadores ignoran download si es cross-origin
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          } catch (e) {
+            console.warn("Anchor download failed", e);
+          }
+        }
+
+        // Ejecutar los intentos con un pequeño retardo para que la UI cargue
+        setTimeout(function () {
+          tryRedirect();
+
+          // si el navegador no inicia descarga tras unos ms, intentamos el anchor
+          setTimeout(function () {
+            tryAnchorDownload();
+          }, 800);
+        }, 200);
+
+        // Mejora UX: si el usuario pulsa manual, añadir el mismo href al botón
+        document.getElementById("manual").href = apkPath;
+      })();
+    </script>
+  </body>
+</html>
